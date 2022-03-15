@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-#define RESULTS_CLEANUP __attribute__((cleanup(generic_cleanup)))
+#define COLLECTOR_CLEANUP __attribute__((cleanup(generic_cleanup)))
 
 static inline void generic_cleanup(void *x) {
     free(*(void**)x);

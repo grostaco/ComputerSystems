@@ -22,7 +22,7 @@ int main (int argc, char **argv) {
     }
 
     if (splits <= 0) {
-        fprintf(stderr, "Splits must be greater than 0");
+        fprintf(stderr, "Splits must be greater than 0\n");
         return 1;
     }
 

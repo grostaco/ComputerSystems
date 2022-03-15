@@ -8,8 +8,12 @@ A collector for adding multiple numbers via `fork`. Created for a university cla
     - [Collector functions](#collector-functions)
 - [Implementation](#implementation)
     - [Collectors](#collectors)
+        - [Creation](#creation)
+        - [Collection](#collection)
 - [Examples](#examples)
-    - [Collector to parallelize sum]()
+    - [Single collector](#single-collector)
+    - [Multiple collectors](#multiple-collectors)
+    - [Example program](#example-program)
 - [Disclaimer](#disclaimer)
 
 # API
@@ -236,3 +240,7 @@ $ make clean run ARGS=2
 8 <EOF>
 Accumulated sum: 36
 ```
+
+# Disclaimer
+
+This is purely made for educational purposes. The overhead from `fork(2)` and IO via `read(2)` and `write(2)` is far too expensive to justify the usage of `fork`-based collectors for addition.

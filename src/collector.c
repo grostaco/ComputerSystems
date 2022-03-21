@@ -7,12 +7,6 @@
 #include <sys/types.h>
 #include <sys/poll.h>
 
-/**
- * @brief Create a new collector
- * 
- * @param expected required pushed elements until sum
- * @return struct collector 
- */
 struct collector collector_create(size_t expected) {
     // Create a pipe for parent <-> child communication
     int pipefd[2];

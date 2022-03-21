@@ -21,7 +21,7 @@ override ASMFLAGS       :=
 override RELEASE_CFLAGS ?= -O3 -flto
 override DEBUG_CFLAGS   ?= -ggdb3 -fsanitize=address,undefined,leak -fstack-protector 
 
-override LDFLAGS        := 
+override LDFLAGS        := -lpthread -lm
 
 ifeq ($(DEBUG), 1)	
 	override CFLAGS   += $(DEBUG_CFLAGS)

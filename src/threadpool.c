@@ -34,7 +34,7 @@ void threadpool_submit(threadpool_t *pool, void (*task)(void*), void* args) {
         next = pool->queue;
     }
 
-    if (pool->occupied == pool->nqueue) {
+    if (pool->enqueued == pool->nqueue) {
         return;
     }
 
@@ -47,6 +47,7 @@ void threadpool_submit(threadpool_t *pool, void (*task)(void*), void* args) {
 
     pool->tqueue = next;
     ++pool->enqueued;
+
     pthread_cond_signal(&pool->notify);
 }
 

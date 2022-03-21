@@ -29,8 +29,6 @@ typedef struct thread_pool {
 
     int shutdown;
     atomic_int enqueued;
-    size_t finished;
-    size_t occupied;
     size_t nqueue;
     size_t nthreads;
 } threadpool_t;

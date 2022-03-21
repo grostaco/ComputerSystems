@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 
+#define BIT(x, b) (((x) & (b)) == (b))
+
 threadpool_t *threadpool_create(size_t nqueue) {
     threadpool_t* pool = calloc(sizeof *pool, 1);
     
@@ -63,7 +65,7 @@ void *threadpool_thread(void* vpool) {
             pthread_cond_wait(&pool->notify, lock);
         }
 
-        if (pool->shutdown) {
+        if (BIT(pool->shutdown, IMMEDIATE_SHUTDOWN) || (BIT(pool->shutdown, GRACEFUL_SHUTDOWN) && pool->enqueued == 0)) {
             break;
         }
            
@@ -86,11 +88,10 @@ void *threadpool_thread(void* vpool) {
     pthread_exit(NULL);
 }
 
-void threadpool_finalize(threadpool_t *pool) {
-    while (pool->enqueued != 0);
+void threadpool_finalize(threadpool_t *pool, int flags) {
     pthread_mutex_lock(&pool->lock);
 
-    pool->shutdown = 1;
+    pool->shutdown = flags;
     pthread_cond_broadcast(&pool->notify);
     pthread_mutex_unlock(&pool->lock);
 

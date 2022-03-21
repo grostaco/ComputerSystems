@@ -4,7 +4,6 @@
 #include <pthread.h>
 #include <stdint.h>
 #include <tgmath.h>
-#include <stdatomic.h>
 
 #include <sys/syscall.h>
 #include <sys/types.h>
@@ -15,6 +14,9 @@ static inline void unlock(void *lock) {
     pthread_mutex_t* mutex = *(pthread_mutex_t**)lock;
     pthread_mutex_unlock(mutex);
 }
+
+#define IMMEDIATE_SHUTDOWN 1
+#define GRACEFUL_SHUTDOWN 2
 
 typedef struct {
     void (*function)(void*);
@@ -28,7 +30,7 @@ typedef struct thread_pool {
     pthread_t *threads;
 
     int shutdown;
-    atomic_int enqueued;
+    size_t enqueued;
     size_t nqueue;
     size_t nthreads;
 } threadpool_t;
@@ -36,5 +38,5 @@ typedef struct thread_pool {
 threadpool_t *threadpool_create(size_t nqueue);
 void threadpool_submit(threadpool_t *pool, void (*task)(void*), void* args);
 void *threadpool_thread(void* vpool);
-void threadpool_finalize(threadpool_t *pool);
+void threadpool_finalize(threadpool_t *pool, int flags);
 void threadpool_cleanup(void *vpool);

@@ -14,6 +14,6 @@ int main (void) {
     threadpool_submit(pool, print_sqrt, &d);
     threadpool_submit(pool, print_sqrt, &d);
 
-    threadpool_finalize(pool);
+    threadpool_finalize(pool, GRACEFUL_SHUTDOWN);
     return 0;
 }

@@ -61,7 +61,7 @@ struct collector_result *collector_collect(struct collector* collectors, size_t 
 Return the value from `outfd` wrapped in `struct collector_result` of all `n` collectors from `collectors`.
 
 # Implementation
-![](static/graphviz.svg)
+![](../static/graphviz.svg)
 
 Figure of collector relationships with the parent process.
 ## Collectors

@@ -37,9 +37,6 @@ void dining_inquire(dining_table_t *table, size_t philosopher) {
 void dining_acquire_fork(dining_table_t *table, size_t philosopher) {
     pthread_mutex_lock(&table->lock);
     table->philosophers[philosopher].state = HUNGRY;
-
-    // Be careful here. Libc has printf locked, but if not then do use printf_unlocked(3) + mutex
-
     dining_inquire(table, philosopher);
     pthread_mutex_unlock(&table->lock);
     sem_wait(&table->philosophers[philosopher].semaphore);

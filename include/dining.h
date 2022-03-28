@@ -16,13 +16,13 @@
 typedef struct philosopher {
     uint32_t state;
     sem_t semaphore;
-}philosopher_t;
+} philosopher_t;
 
 typedef struct dining_table {
     philosopher_t *philosophers;
     pthread_mutex_t lock;
     size_t nphilosophers;
-}dining_table_t;
+} dining_table_t;
 
 dining_table_t *dining_create(size_t nphilosophers);
 void dining_destroy(dining_table_t *table);

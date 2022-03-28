@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <semaphore.h>
 
+// Based on Dijkstra's solution
 #define NPHILOSOPHERS 8
 #define THINKING 0
 #define HUNGRY 1

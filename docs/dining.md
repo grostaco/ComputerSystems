@@ -133,6 +133,7 @@ void philosopher_thread(void *args) {
 #include "dining.h"
 
 #define NPHILOSOPHERS 8
+static int shutdown;
 
 struct philosopher_args {
     dining_table_t *table;
@@ -144,7 +145,7 @@ void philosopher_thread(void *args) {
     dining_table_t *table = pargs->table;
     size_t philosopher = pargs->philosopher;
 
-    while (1) {
+    while (!shutdown) {
         // thinking period
         usleep((lrand48() % 400 + 100) * 1000);
 
@@ -172,6 +173,10 @@ int main () {
         threadpool_submit(pool, philosopher_thread, &args[i]);
     }
     
+    printf("Press enter to exit\n");
+    getc(stdin);
+    shutdown = 1;
+    printf("Shutting down\n");
     threadpool_finalize(pool, GRACEFUL_SHUTDOWN);
 }
 ```
@@ -181,6 +186,7 @@ Possible outputs:
 $ make clean run
 ...
 ./bin/out 
+Press enter to exit
 Philosopher 0 is hungry
 Philosopher 0 is eating
 Philosopher 6 is hungry
@@ -195,6 +201,8 @@ Philosopher 7 is hungry
 Philosopher 0 is hungry
 Philosopher 2 is hungry
 Philosopher 3 is hungry
+<ENTER>
+Shutting down
 Philosopher 4 has finished eating
 Philosopher 3 is eating
 Philosopher 6 has finished eating
@@ -229,3 +237,4 @@ We will outline the process justifying the output above.
 - Philosopher 5 & 7 are eating
     - As philosopher 4 & 6 has finished eating, philosopher 5 and 7 can eat.
 - Philosopher 1 has finished eating
+- Exit

@@ -5,6 +5,7 @@
 #include "dining.h"
 
 #define NPHILOSOPHERS 8
+static int shutdown;
 
 struct philosopher_args {
     dining_table_t *table;
@@ -16,7 +17,7 @@ void philosopher_thread(void *args) {
     dining_table_t *table = pargs->table;
     size_t philosopher = pargs->philosopher;
 
-    while (1) {
+    while (!shutdown) {
         // thinking period
         usleep((lrand48() % 400 + 100) * 1000);
 
@@ -44,5 +45,9 @@ int main () {
         threadpool_submit(pool, philosopher_thread, &args[i]);
     }
     
+    printf("Press enter to exit\n");
+    getc(stdin);
+    shutdown = 1;
+    printf("Shutting down\n");
     threadpool_finalize(pool, GRACEFUL_SHUTDOWN);
 }

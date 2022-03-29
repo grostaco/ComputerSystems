@@ -24,5 +24,5 @@ A program implementing Dijkstra's solution to the dining philosophers problem us
 ## [Race condition](race_condition.md)
 A solution to assignment 10's first question to resolve a race condition.
 
-## [OpenMP accumulator](openmc_acc.md)
+## [OpenMP accumulator](openmp_acc.md)
 A solution to assignment 10's second question to rewrite assignment 8 using OpenMP.

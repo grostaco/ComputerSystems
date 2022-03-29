@@ -12,7 +12,7 @@ DEPS            := $(patsubst %.o, %.d, $(OBJ))
 override CFLAGS         := -Iinclude -std=gnu$(CSTD) 
 override CFLAGS         += -Wall -Werror -Wextra -Wparentheses -Wunreachable-code
 override CFLAGS         += -Wunused -Wmissing-field-initializers -Wswitch-default -Wuninitialized
-override CFLAGS         += -Wpointer-arith -Wswitch-enum -Wredundant-decls -Wshadow -Wno-unused-result 
+override CFLAGS         += -Wpointer-arith -Wswitch-enum -Wredundant-decls -Wshadow -Wno-unused-result -fopenmp
 override CXXFLAGS       := -Iinclude -std=gnu++$(CXXSTD)
 override CXXFLAGS       += -Wall -Werror -Wextra -Wparentheses -Wmissing-declarations -Wunreachable-code
 override CXXFLAGS       += -Wunused -Wmissing-field-initializers -Wswitch-default -Wuninitialized

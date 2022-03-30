@@ -14,6 +14,7 @@ int main () {
 
     uint16_t *numbers = calloc(N, sizeof *numbers);
     uint64_t sum = 0;
+    // Unchecked. If this fails you have way bigger issues
     read(rd, numbers, N * sizeof *numbers);
 
 #pragma omp parallel for 

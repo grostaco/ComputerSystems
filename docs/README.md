@@ -4,11 +4,12 @@ This directory contains resources explaining files inside of this project.
 
 # ToC
 - [Library-ish things](#library-ish-things)
-    - [Collector](#collectorcollectormd)
-    - [Thread Pool](#thread-poolthreadpoolmd)
-    - [Dining](#diningdiningmd)
-- Assignments
-    - 
+    - [Collector](#collector)
+    - [Thread Pool](#threadpool)
+    - [Dining](#dining)
+- [Assignments](#assignments)
+    - [Race Condition](#race-condition)
+    - [OpenMP accumulator](#openmp-accumulator)
 
 # Library-ish things
 ## [Collector](collector.md)

@@ -10,6 +10,8 @@
 
 #define DEFER_UNLOCK __attribute__((cleanup(unlock)))
 #define POOL_CLEANUP __attribute__((cleanup(threadpool_cleanup)))
+#define THREAD_FUNC (void(*)(void*))
+
 static inline void unlock(void *lock) {
     pthread_mutex_t* mutex = *(pthread_mutex_t**)lock;
     pthread_mutex_unlock(mutex);

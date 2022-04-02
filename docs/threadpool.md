@@ -99,8 +99,8 @@ Helper function to take new tasks. Should never be called directly.
 
 #include "threadpool.h"
 
-void print_sqrt(void* args) {
-    printf("%f\n", sqrt(*(double*)args));
+void print_sqrt(double* args) {
+    printf("%f\n", sqrt(*args));
 }
 
 int main (void) {
@@ -109,10 +109,10 @@ int main (void) {
     threadpool_t *pool POOL_CLEANUP = threadpool_create(4);
 
     // push work onto the thread pool's queue
-    threadpool_submit(pool, print_sqrt, &d);
-    threadpool_submit(pool, print_sqrt, &d);
-    threadpool_submit(pool, print_sqrt, &d);
-    threadpool_submit(pool, print_sqrt, &d);
+    threadpool_submit(pool, THREAD_FUNC print_sqrt, &d);
+    threadpool_submit(pool, THREAD_FUNC print_sqrt, &d);
+    threadpool_submit(pool, THREAD_FUNC print_sqrt, &d);
+    threadpool_submit(pool, THREAD_FUNC print_sqrt, &d);
 
     // wait until the queue is depleted
     threadpool_finalize(pool, GRACEFUL_SHUTDOWN);
@@ -128,6 +128,49 @@ make clean run
 2.000000
 2.000000
 2.000000
+```
+
+## Ranged Accumulator 
+```c
+#include <stdio.h>
+#include <stdint.h>
+
+#include "threadpool.h"
+
+struct acc_args {
+    uint64_t begin;
+    uint64_t end;
+    uint64_t sum;
+};
+
+void range_acc(struct acc_args * args) {
+    for (size_t i = args->begin ; i <= args->end ; ++i) {
+        args->sum += i;
+    }
+}
+
+int main (void) {
+    threadpool_t *pool POOL_CLEANUP = threadpool_create(2);
+    uint64_t end;
+    scanf("%ld", &end);
+    struct acc_args args[2] = {{.end = end / 2}, {.begin = end / 2 + 1, .end = end}};
+
+    threadpool_submit(pool, THREAD_FUNC range_acc, &args[0]);
+    threadpool_submit(pool, THREAD_FUNC range_acc, &args[1]);
+
+    threadpool_finalize(pool, GRACEFUL_SHUTDOWN);
+
+    printf("Final sum: %ld\n", args[0].sum + args[1].sum);
+    return 0;
+}
+```
+Possible output:
+```
+$ make clean run
+...
+./bin/out
+10
+Final sum: 55
 ```
 
 ## Example program
